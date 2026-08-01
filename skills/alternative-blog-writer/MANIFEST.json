@@ -1,0 +1,22 @@
+{
+  "name": "alternative-blog-writer",
+  "source_archive": "alternative-blog-writer.zip",
+  "source_archive_sha256": "8c081f1c3e119775a0a3d5e31169ea54807d02e2429ae743b99460cfa974d92e",
+  "preserved_at": "2026-08-02",
+  "files": [
+    {
+      "path": "SKILL.md",
+      "sha256": "8e95ee7e64b484edaa5cdf7ac82de9cf9e9fa01d8e80e290a6bdba9ece0a955c"
+    },
+    {
+      "path": "LICENSE.txt",
+      "sha256": "5f041c8b445bb4555c896894c0b61b90472881f776edca4e266992ae1dc7ae03"
+    },
+    {
+      "path": "references/article-template-v2.md",
+      "sha256": "16b0fc442a2c46a4c3b662817b60e03414da6620b836d054ec23ad8f0378bc29"
+    }
+  ],
+  "status": "preserved for review; not automatically activated",
+  "owner_control": "The33rdHouseMaster"
+}
