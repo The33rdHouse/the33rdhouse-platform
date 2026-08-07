@@ -1,0 +1,18 @@
+[
+  {
+    "sourceId": "deity-atlas-realms",
+    "realmNumber": 27,
+    "gate": 3,
+    "gateName": "Gate Three",
+    "name": "Name A",
+    "description": "Description A"
+  },
+  {
+    "sourceId": "deity-atlas-meditations",
+    "realmNumber": 27,
+    "gate": 3,
+    "gateName": "Gate Three",
+    "name": "Name B",
+    "description": "Description B"
+  }
+]
