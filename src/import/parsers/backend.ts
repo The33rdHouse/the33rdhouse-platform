@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { basename, extname } from "node:path";
 import { backendAssetManifestSchema } from "../schemas/backend";
 import { type ParsedSourcePackage, stagingRecord } from "../types";
@@ -46,11 +47,13 @@ export async function parseBackend(zipPath: string): Promise<ParsedSourcePackage
 
     if (/\/assets\/audio\/meditations\/[^/]+\.mp3$/i.test(entry.path)) {
       const realmMatch = /realm_(\d{3})_/i.exec(basename(entry.path));
+      const bytes = await entry.buffer();
       media.push({
         sourcePath: entry.path,
         fileName: basename(entry.path),
         realmIndex: realmMatch ? Number(realmMatch[1]) : undefined,
         mimeType: "audio/mpeg",
+        sha256: createHash("sha256").update(bytes).digest("hex"),
       });
     }
   }
