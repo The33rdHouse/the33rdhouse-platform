@@ -10,22 +10,16 @@ async function appendStaticArray(
   sourceSuffix: string,
   exportName: string,
   kind: string,
-  scalarKeys: readonly string[],
 ): Promise<void> {
   const entry = findRequiredEntry(directory, sourceSuffix);
   const source = await readEntryText(entry);
-  const parsed = parseStaticExportedArray(source, exportName, scalarKeys);
+  const parsed = parseStaticExportedArray(source, exportName);
 
   parsed.forEach((item, index) => {
-    const extractedId = item.fields.id;
+    const extractedId = item.id;
     const sourceRecordId =
       typeof extractedId === "string" || typeof extractedId === "number" ? extractedId : index;
-    records.push(
-      stagingRecord(kind, entry.path, sourceRecordId, {
-        rawSource: item.rawSource,
-        fields: item.fields,
-      }),
-    );
+    records.push(stagingRecord(kind, entry.path, sourceRecordId, item));
   });
 }
 
@@ -67,7 +61,6 @@ export async function parseBackend(zipPath: string): Promise<ParsedSourcePackage
     "the-33rd-house/lib/data/meditation-realms.ts",
     "MEDITATION_REALMS",
     "backend_realm_variant",
-    ["id", "gateId", "realmNumber", "name", "description", "duration", "difficulty", "focusArea"],
   );
   await appendStaticArray(
     directory,
@@ -75,7 +68,6 @@ export async function parseBackend(zipPath: string): Promise<ParsedSourcePackage
     "the-33rd-house/lib/data/era-timelines.ts",
     "ERA_TIMELINES",
     "backend_era",
-    ["id", "name", "period", "startYear", "endYear"],
   );
   await appendStaticArray(
     directory,
@@ -83,7 +75,6 @@ export async function parseBackend(zipPath: string): Promise<ParsedSourcePackage
     "the-33rd-house/lib/data/library-books.ts",
     "LIBRARY_BOOKS",
     "backend_book",
-    ["id", "title", "author", "category", "requiredTier"],
   );
 
   const assetManifest = await readJsonEntry(
@@ -100,7 +91,7 @@ export async function parseBackend(zipPath: string): Promise<ParsedSourcePackage
     records,
     media,
     warnings: [
-      "TypeScript/TSX modules are never imported or executed; only explicitly selected exported data arrays are lexically scanned as static source.",
+      "TypeScript/TSX modules are never imported or executed; selected exported data arrays are parsed with the TypeScript compiler API and literal-only AST evaluation.",
       "Backend source references missing local modules and is treated as source evidence rather than runtime scaffolding.",
     ],
   };
