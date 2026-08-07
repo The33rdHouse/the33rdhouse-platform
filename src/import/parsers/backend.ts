@@ -17,7 +17,9 @@ async function appendStaticArray(
   const parsed = parseStaticExportedArray(source, exportName, scalarKeys);
 
   parsed.forEach((item, index) => {
-    const sourceRecordId = item.fields.id ?? index;
+    const extractedId = item.fields.id;
+    const sourceRecordId =
+      typeof extractedId === "string" || typeof extractedId === "number" ? extractedId : index;
     records.push(
       stagingRecord(kind, entry.path, sourceRecordId, {
         rawSource: item.rawSource,
