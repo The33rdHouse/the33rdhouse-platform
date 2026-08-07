@@ -1,173 +1,100 @@
-import { staticSourceRecordSchema } from "../schemas/backend";
+import ts from "typescript";
 
-function escapeRegExp(value: string): string {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+export type StaticValue =
+  | string
+  | number
+  | boolean
+  | StaticValue[]
+  | { [key: string]: StaticValue };
+
+function unsupported(node: ts.Node): never {
+  throw new Error(`Unsupported static TypeScript expression: ${ts.SyntaxKind[node.kind]}`);
 }
 
-export function extractExportedArrayObjects(source: string, exportName: string): string[] {
-  const marker = new RegExp(`export\\s+const\\s+${escapeRegExp(exportName)}\\b[\\s\\S]*?=`).exec(source);
-  if (!marker || marker.index === undefined) {
-    throw new Error(`Static export ${exportName} was not found`);
+function propertyName(name: ts.PropertyName): string {
+  if (ts.isIdentifier(name) || ts.isStringLiteral(name) || ts.isNumericLiteral(name)) {
+    return name.text;
   }
-
-  const arrayStart = source.indexOf("[", marker.index + marker[0].length);
-  if (arrayStart < 0) {
-    throw new Error(`Static export ${exportName} does not contain an array literal`);
-  }
-
-  const objects: string[] = [];
-  let squareDepth = 1;
-  let curlyDepth = 0;
-  let objectStart = -1;
-  let quote: "'" | '"' | "`" | null = null;
-  let escaped = false;
-  let lineComment = false;
-  let blockComment = false;
-
-  for (let index = arrayStart + 1; index < source.length; index += 1) {
-    const char = source[index]!;
-    const next = source[index + 1];
-
-    if (lineComment) {
-      if (char === "\n") lineComment = false;
-      continue;
-    }
-    if (blockComment) {
-      if (char === "*" && next === "/") {
-        blockComment = false;
-        index += 1;
-      }
-      continue;
-    }
-    if (quote) {
-      if (escaped) {
-        escaped = false;
-        continue;
-      }
-      if (char === "\\") {
-        escaped = true;
-        continue;
-      }
-      if (char === quote) quote = null;
-      continue;
-    }
-
-    if (char === "/" && next === "/") {
-      lineComment = true;
-      index += 1;
-      continue;
-    }
-    if (char === "/" && next === "*") {
-      blockComment = true;
-      index += 1;
-      continue;
-    }
-    if (char === "'" || char === '"' || char === "`") {
-      quote = char;
-      continue;
-    }
-
-    if (char === "[") {
-      squareDepth += 1;
-      continue;
-    }
-    if (char === "]") {
-      squareDepth -= 1;
-      if (squareDepth === 0) break;
-      continue;
-    }
-    if (char === "{") {
-      if (curlyDepth === 0 && squareDepth === 1) objectStart = index;
-      curlyDepth += 1;
-      continue;
-    }
-    if (char === "}") {
-      if (curlyDepth === 0) throw new Error(`Unbalanced object literal in ${exportName}`);
-      curlyDepth -= 1;
-      if (curlyDepth === 0 && objectStart >= 0) {
-        objects.push(source.slice(objectStart, index + 1));
-        objectStart = -1;
-      }
-    }
-  }
-
-  if (squareDepth !== 0 || curlyDepth !== 0 || quote || blockComment) {
-    throw new Error(`Unbalanced static array export ${exportName}`);
-  }
-
-  return objects;
+  return unsupported(name);
 }
 
-function readQuotedValue(source: string, start: number, quote: string): string {
-  let value = "";
-  let escaped = false;
-  const escapes: Record<string, string> = {
-    n: "\n",
-    r: "\r",
-    t: "\t",
-    "\\": "\\",
-    "'": "'",
-    '"': '"',
-    "`": "`",
-  };
+function staticValue(node: ts.Expression): StaticValue {
+  if (ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node)) return node.text;
+  if (ts.isNumericLiteral(node)) return Number(node.text);
+  if (node.kind === ts.SyntaxKind.TrueKeyword) return true;
+  if (node.kind === ts.SyntaxKind.FalseKeyword) return false;
 
-  for (let index = start + 1; index < source.length; index += 1) {
-    const char = source[index]!;
-    if (escaped) {
-      value += escapes[char] ?? char;
-      escaped = false;
-      continue;
-    }
-    if (char === "\\") {
-      escaped = true;
-      continue;
-    }
-    if (char === quote) return value;
-    value += char;
+  if (
+    ts.isPrefixUnaryExpression(node) &&
+    node.operator === ts.SyntaxKind.MinusToken &&
+    ts.isNumericLiteral(node.operand)
+  ) {
+    return -Number(node.operand.text);
   }
 
-  throw new Error("Unterminated string literal in static source");
+  if (ts.isArrayLiteralExpression(node)) {
+    return node.elements.map((element) => {
+      if (ts.isSpreadElement(element) || ts.isOmittedExpression(element)) return unsupported(element);
+      return staticValue(element);
+    });
+  }
+
+  if (ts.isObjectLiteralExpression(node)) {
+    const output: Record<string, StaticValue> = {};
+    for (const property of node.properties) {
+      if (!ts.isPropertyAssignment(property)) return unsupported(property);
+      output[propertyName(property.name)] = staticValue(property.initializer);
+    }
+    return output;
+  }
+
+  return unsupported(node);
 }
 
-export function extractStaticFields(
-  objectSource: string,
-  keys: readonly string[],
-): Record<string, string | number | boolean> {
-  const fields: Record<string, string | number | boolean> = {};
+function findExportedInitializer(sourceFile: ts.SourceFile, exportName: string): ts.Expression {
+  for (const statement of sourceFile.statements) {
+    if (!ts.isVariableStatement(statement)) continue;
+    const exported = statement.modifiers?.some((modifier) => modifier.kind === ts.SyntaxKind.ExportKeyword);
+    if (!exported) continue;
 
-  for (const key of keys) {
-    const match = new RegExp(`\\b${escapeRegExp(key)}\\s*:\\s*`).exec(objectSource);
-    if (!match || match.index === undefined) continue;
-
-    const valueStart = match.index + match[0].length;
-    const char = objectSource[valueStart];
-    if (char === "'" || char === '"' || char === "`") {
-      fields[key] = readQuotedValue(objectSource, valueStart, char);
-      continue;
+    for (const declaration of statement.declarationList.declarations) {
+      if (!ts.isIdentifier(declaration.name) || declaration.name.text !== exportName) continue;
+      if (!declaration.initializer) {
+        throw new Error(`Static export ${exportName} has no initializer`);
+      }
+      return declaration.initializer;
     }
-
-    const tail = objectSource.slice(valueStart);
-    const numberMatch = /^-?\d+(?:\.\d+)?/.exec(tail);
-    if (numberMatch) {
-      fields[key] = Number(numberMatch[0]);
-      continue;
-    }
-    const booleanMatch = /^(true|false)\b/.exec(tail);
-    if (booleanMatch) fields[key] = booleanMatch[1] === "true";
   }
 
-  return fields;
+  throw new Error(`Static export ${exportName} was not found`);
 }
 
 export function parseStaticExportedArray(
   source: string,
   exportName: string,
-  scalarKeys: readonly string[],
-): Array<{ rawSource: string; fields: Record<string, string | number | boolean> }> {
-  return extractExportedArrayObjects(source, exportName).map((rawSource) =>
-    staticSourceRecordSchema.parse({
-      rawSource,
-      fields: extractStaticFields(rawSource, scalarKeys),
-    }),
+): Array<Record<string, StaticValue>> {
+  const sourceFile = ts.createSourceFile(
+    "source-data.ts",
+    source,
+    ts.ScriptTarget.Latest,
+    true,
+    ts.ScriptKind.TS,
   );
+
+  const parseDiagnostics = (sourceFile as ts.SourceFile & { parseDiagnostics?: readonly ts.Diagnostic[] })
+    .parseDiagnostics;
+  if (parseDiagnostics?.length) {
+    const diagnostic = parseDiagnostics[0]!;
+    throw new Error(`Invalid static TypeScript source: ${ts.flattenDiagnosticMessageText(diagnostic.messageText, " ")}`);
+  }
+
+  const initializer = findExportedInitializer(sourceFile, exportName);
+  if (!ts.isArrayLiteralExpression(initializer)) return unsupported(initializer);
+
+  return initializer.elements.map((element) => {
+    if (ts.isSpreadElement(element) || ts.isOmittedExpression(element)) return unsupported(element);
+    const value = staticValue(element);
+    if (Array.isArray(value) || typeof value !== "object") return unsupported(element);
+    return value;
+  });
 }
