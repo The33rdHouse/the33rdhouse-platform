@@ -1,0 +1,10 @@
+[
+  {"id":"rank-01","ordinal":1,"name":"Seeker","unlockRule":"{\"all\":[]}"},
+  {"id":"rank-02","ordinal":2,"name":"Novice","unlockRule":"{\"all\":[{\"metric\":\"discoveries\",\"gte\":12}]}"},
+  {"id":"rank-03","ordinal":3,"name":"Initiate","unlockRule":"{\"all\":[{\"metric\":\"crossTraditionConnections\",\"gte\":3}]}"},
+  {"id":"rank-04","ordinal":4,"name":"Adept","unlockRule":"{\"all\":[{\"metric\":\"completedPaths\",\"gte\":1}]}"},
+  {"id":"rank-05","ordinal":5,"name":"Keeper","unlockRule":"{\"all\":[{\"metric\":\"traditionsIntegrated\",\"gte\":33}]}"},
+  {"id":"rank-06","ordinal":6,"name":"Guardian","unlockRule":"{\"all\":[{\"metric\":\"completedPaths\",\"gte\":12}]}"},
+  {"id":"rank-07","ordinal":7,"name":"Sage","unlockRule":"{\"all\":[{\"metric\":\"connections\",\"gte\":144}]}"},
+  {"id":"rank-08","ordinal":8,"name":"Elder","unlockRule":"{\"all\":[{\"metric\":\"masteredGates\",\"gte\":12}]}"}
+]
