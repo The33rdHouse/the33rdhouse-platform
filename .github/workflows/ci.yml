@@ -7,7 +7,7 @@ on:
     branches: [feat/canonical-content-core-phase-1]
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   verify:
@@ -31,8 +31,6 @@ jobs:
       SOURCE_EVIDENCE_DIR: source-evidence
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event_name == 'push' && github.ref_name || github.event.pull_request.head.sha }}
       - uses: pnpm/action-setup@v4
         with:
           version: 10.15.0
@@ -43,23 +41,13 @@ jobs:
           cache: pnpm
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-      - name: Generate Drizzle migration
-        run: pnpm db:generate
+      - name: Verify Drizzle migration is current
+        run: |
+          pnpm db:generate
+          git diff --exit-code -- drizzle
       - name: Typecheck
         run: pnpm check
       - name: Unit tests
         run: pnpm test
       - name: Apply migration to PostgreSQL 16
         run: pnpm db:migrate
-      - name: Commit generated migration on feature-branch pushes
-        if: github.event_name == 'push'
-        run: |
-          if git diff --quiet -- drizzle && git ls-files 'drizzle/**' | grep -q .; then
-            echo "Drizzle migration already tracked and unchanged"
-            exit 0
-          fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add drizzle
-          git commit -m "feat: generate canonical PostgreSQL migration"
-          git push origin HEAD:${GITHUB_REF_NAME}
