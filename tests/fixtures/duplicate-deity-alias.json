@@ -1,0 +1,24 @@
+[
+  {
+    "kind": "deity",
+    "sourcePath": "deity_atlas_data.json",
+    "sourceRecordId": "thor-a",
+    "payload": {
+      "id": "NOR-THOR-0001",
+      "name_primary": "Thor",
+      "name_variants": "Þórr",
+      "tradition_complex": "Norse/Germanic"
+    }
+  },
+  {
+    "kind": "deity",
+    "sourcePath": "deity_atlas_data-alt.json",
+    "sourceRecordId": "thor-b",
+    "payload": {
+      "id": "NOR-THOR-0001",
+      "name_primary": "Thor",
+      "name_variants": "  Þórr  ",
+      "tradition_complex": "Norse/Germanic"
+    }
+  }
+]
