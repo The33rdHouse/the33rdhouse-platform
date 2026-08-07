@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [main]
   push:
-    branches: [feat/canonical-content-core-phase-1]
+    branches: [main, feat/canonical-content-core-phase-1]
 
 permissions:
   contents: read
@@ -28,7 +28,6 @@ jobs:
           --health-retries 5
     env:
       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/the33rdhouse_test
-      SOURCE_EVIDENCE_DIR: source-evidence
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -51,3 +50,5 @@ jobs:
         run: pnpm db:migrate
       - name: Unit and integration tests
         run: pnpm test
+      - name: Build
+        run: pnpm build
