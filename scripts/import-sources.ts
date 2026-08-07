@@ -5,6 +5,7 @@ import { parseDeityAtlas } from "../src/import/parsers/deity-atlas";
 import { parseEscapeMatrix } from "../src/import/parsers/escape-matrix";
 import { importSources, planRealmReconciliations } from "../src/import/pipeline";
 import type { ParsedSourcePackage } from "../src/import/types";
+import { persistRankRules, rankRulesFromSources } from "../src/progression/import";
 
 const commit = process.argv.includes("--commit");
 const dryRun = process.argv.includes("--dry-run") || !commit;
@@ -30,6 +31,7 @@ const parsedPackages: ParsedSourcePackage[] = [
 
 if (dryRun) {
   const reconciliations = planRealmReconciliations(parsedPackages);
+  const rankRules = rankRulesFromSources(parsedPackages);
   process.stdout.write(
     `${JSON.stringify(
       {
@@ -40,6 +42,7 @@ if (dryRun) {
         media: parsedPackages.reduce((sum, item) => sum + item.media.length, 0),
         realmIdentities: reconciliations.length,
         realmConflicts: reconciliations.filter((item) => item.status === "UNDER_REVIEW").length,
+        rankRules: rankRules.map(({ id, ordinal, name }) => ({ id, ordinal, name })),
         warnings: parsedPackages.flatMap((item) => item.warnings),
       },
       null,
@@ -48,9 +51,11 @@ if (dryRun) {
   );
 } else {
   const { db, pool } = await import("../src/db/client");
+  const actor = process.env.IMPORT_ACTOR ?? "system-import";
   try {
-    const report = await importSources(db, parsedPackages, process.env.IMPORT_ACTOR ?? "system-import");
-    process.stdout.write(`${JSON.stringify({ mode: "commit", ...report }, null, 2)}\n`);
+    const report = await importSources(db, parsedPackages, actor);
+    const rankRules = await persistRankRules(db, parsedPackages, actor);
+    process.stdout.write(`${JSON.stringify({ mode: "commit", ...report, rankRules }, null, 2)}\n`);
   } finally {
     await pool.end();
   }
