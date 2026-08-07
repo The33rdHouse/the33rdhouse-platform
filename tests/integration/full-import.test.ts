@@ -9,7 +9,7 @@ import { rankRulesFromSources } from "../../src/progression/import";
 
 const sourceDir = process.env.SOURCE_EVIDENCE_DIR ?? "";
 
-const expectedHashes = new Map([
+const expectedHashes = new Map<string, string>([
   ["complete-backend", "807118cb83c9c2a3d17208dc2359500ebd8b9b9535b59063887a097ba5103859"],
   ["escape-matrix", "723f4939fee408c45662bfcb02fda5e453c4241b0d1c44533bb89980f490bd5e"],
   ["deity-atlas", "63de0efb96498508d809c12302cead3ba6e0eb4f6adeab68a22e0ba6f558aa1d"],
@@ -20,13 +20,26 @@ describe.skipIf(!sourceDir)("controlled full-source verification", () => {
     const evidence = await inventoryEvidenceDirectory(sourceDir);
     expect(evidence).toHaveLength(3);
     for (const item of evidence) {
+      if (!item.id) throw new Error(`Verified evidence item is missing an ID: ${item.fileName}`);
       expect(item.sha256).toBe(expectedHashes.get(item.id));
     }
 
-    const byId = new Map(evidence.map((item) => [item.id, item.filePath]));
-    const backend = await parseBackend(byId.get("complete-backend")!);
-    const escapeMatrix = await parseEscapeMatrix(byId.get("escape-matrix")!);
-    const deityAtlas = await parseDeityAtlas(byId.get("deity-atlas")!);
+    const byId = new Map<string, string>();
+    for (const item of evidence) {
+      if (!item.id) throw new Error(`Verified evidence item is missing an ID: ${item.fileName}`);
+      byId.set(item.id, item.filePath);
+    }
+
+    const backendPath = byId.get("complete-backend");
+    const escapeMatrixPath = byId.get("escape-matrix");
+    const deityAtlasPath = byId.get("deity-atlas");
+    if (!backendPath || !escapeMatrixPath || !deityAtlasPath) {
+      throw new Error("Verified full-source package set is incomplete");
+    }
+
+    const backend = await parseBackend(backendPath);
+    const escapeMatrix = await parseEscapeMatrix(escapeMatrixPath);
+    const deityAtlas = await parseDeityAtlas(deityAtlasPath);
 
     expect(deityAtlas.records.filter((item) => item.kind === "deity")).toHaveLength(447);
     expect(deityAtlas.records.filter((item) => item.kind === "realm_variant")).toHaveLength(144);
