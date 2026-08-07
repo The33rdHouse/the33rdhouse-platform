@@ -8,6 +8,13 @@
       "when": 1786066399885,
       "tag": "0000_mighty_forgotten_one",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1786070782999,
+      "tag": "0001_dark_vertigo",
+      "breakpoints": true
     }
   ]
 }
