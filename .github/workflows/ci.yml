@@ -47,7 +47,7 @@ jobs:
           git diff --exit-code -- drizzle
       - name: Typecheck
         run: pnpm check
-      - name: Unit tests
-        run: pnpm test
       - name: Apply migration to PostgreSQL 16
         run: pnpm db:migrate
+      - name: Unit and integration tests
+        run: pnpm test
