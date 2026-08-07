@@ -2,7 +2,12 @@ import { randomUUID } from "node:crypto";
 import { TRPCError } from "@trpc/server";
 import { and, asc, eq, gt } from "drizzle-orm";
 import { z } from "zod";
-import { MAPPING_CONFIDENCE, MAPPING_TYPES, mappingClaims } from "../../db/schema";
+import {
+  canonObjects,
+  MAPPING_CONFIDENCE,
+  MAPPING_TYPES,
+  mappingClaims,
+} from "../../db/schema";
 import { promoteCanonObjectInTransaction } from "../../canon/promotion";
 import { reviewCanonObjectInTransaction } from "../../canon/governance";
 import { decodeStringCursor, encodeCursor, pageInputSchema } from "../pagination";
@@ -21,6 +26,16 @@ const reviewInput = z.object({
   decision: z.enum(["APPROVED", "REJECTED", "ARCHIVED"]),
   notes: z.string().trim().max(5000).optional(),
 });
+
+function claimPayload(claim: typeof mappingClaims.$inferSelect): Record<string, unknown> {
+  return {
+    fromObjectId: claim.fromObjectId,
+    toObjectId: claim.toObjectId,
+    mappingType: claim.mappingType,
+    confidence: claim.confidence,
+    rationale: claim.rationale,
+  };
+}
 
 export const claimsRouter = router({
   list: publicProcedure.input(pageInputSchema).query(async ({ ctx, input }) => {
@@ -62,13 +77,7 @@ export const claimsRouter = router({
           objectType: "mapping_claim",
           level: "CONTENT",
           status: "DRAFT",
-          payload: {
-            fromObjectId: claim.fromObjectId,
-            toObjectId: claim.toObjectId,
-            mappingType: claim.mappingType,
-            confidence: claim.confidence,
-            rationale: claim.rationale,
-          },
+          payload: claimPayload(claim),
         },
         ctx.userId,
       );
@@ -85,19 +94,32 @@ export const claimsRouter = router({
         .limit(1);
       if (!claim) throw new TRPCError({ code: "NOT_FOUND" });
 
+      const [governance] = await tx
+        .select({ id: canonObjects.id })
+        .from(canonObjects)
+        .where(eq(canonObjects.id, claim.id))
+        .limit(1);
+      if (!governance) {
+        await promoteCanonObjectInTransaction(
+          tx,
+          {
+            objectId: claim.id,
+            objectType: "mapping_claim",
+            level: "CONTENT",
+            status: claim.status,
+            payload: claimPayload(claim),
+          },
+          ctx.userId,
+        );
+      }
+
       await reviewCanonObjectInTransaction(
         tx,
         {
           objectId: claim.id,
           decision: input.decision,
           notes: input.notes,
-          payload: {
-            fromObjectId: claim.fromObjectId,
-            toObjectId: claim.toObjectId,
-            mappingType: claim.mappingType,
-            confidence: claim.confidence,
-            rationale: claim.rationale,
-          },
+          payload: claimPayload(claim),
         },
         ctx.userId,
       );
