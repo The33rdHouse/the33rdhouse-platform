@@ -1,11 +1,6 @@
 import { createHash } from "node:crypto";
 import { and, eq } from "drizzle-orm";
-import {
-  canonSourceRecords,
-  gates,
-  realmSourceVariants,
-  realms,
-} from "../db/schema";
+import { canonSourceRecords, gates, realmSourceVariants, realms } from "../db/schema";
 import { gateId, realmId } from "../canon/ids";
 import {
   reconcileRealmVariants,
@@ -16,6 +11,7 @@ import {
   promoteCanonObjectInTransaction,
   type CanonicalDatabase,
 } from "../canon/promotion";
+import { importKnowledgeRecords, type KnowledgeImportReport } from "./knowledge";
 import type { ParsedSourcePackage, StagingRecord } from "./types";
 
 export type ImportReport = {
@@ -24,6 +20,7 @@ export type ImportReport = {
   realmIdentities: number;
   conflicts: number;
   warnings: string[];
+  knowledge: KnowledgeImportReport;
 };
 
 function hashText(value: string): string {
@@ -105,7 +102,6 @@ export function planRealmReconciliations(
   parsedPackages: readonly ParsedSourcePackage[],
 ): RealmReconciliationResult[] {
   const grouped = new Map<number, RealmSourceVariant[]>();
-
   for (const parsedPackage of parsedPackages) {
     for (const record of parsedPackage.records) {
       const variant = realmVariantFromStaging(parsedPackage.sourceId, record);
@@ -115,7 +111,6 @@ export function planRealmReconciliations(
       grouped.set(variant.realmNumber, variants);
     }
   }
-
   return [...grouped.entries()]
     .sort(([left], [right]) => left - right)
     .map(([, variants]) => reconcileRealmVariants(variants));
@@ -251,7 +246,6 @@ export async function importSources(
 
         const structuralGateOrdinal = canonicalGateOrdinal(realmNumber);
         const stableGateId = gateId(structuralGateOrdinal);
-
         await tx
           .update(realms)
           .set({
@@ -281,11 +275,15 @@ export async function importSources(
     });
   }
 
+  const knowledge = await importKnowledgeRecords(database, parsedPackages, actor);
+  conflicts += knowledge.conflicts;
+
   return {
     packageCount: parsedPackages.length,
     sourceRecords,
     realmIdentities: affectedRealmNumbers.size,
     conflicts,
     warnings: parsedPackages.flatMap((parsedPackage) => parsedPackage.warnings),
+    knowledge,
   };
 }
