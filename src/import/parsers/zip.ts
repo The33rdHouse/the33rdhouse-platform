@@ -4,9 +4,29 @@ import { z, type ZodType } from "zod";
 export type ZipDirectory = unzipper.Directory;
 export type ZipEntry = unzipper.Entry;
 
+export function assertSafeZipEntryPath(entryPath: string): void {
+  if (entryPath.includes("\0")) {
+    throw new Error(`Unsafe ZIP entry path: NUL byte in ${JSON.stringify(entryPath)}`);
+  }
+
+  const normalized = entryPath.replace(/\\/g, "/");
+  const isPosixAbsolute = normalized.startsWith("/");
+  const isWindowsDriveAbsolute = /^[A-Za-z]:\//.test(normalized);
+  const isUncAbsolute = normalized.startsWith("//");
+  const hasTraversal = normalized.split("/").some((segment) => segment === "..");
+
+  if (isPosixAbsolute || isWindowsDriveAbsolute || isUncAbsolute || hasTraversal) {
+    throw new Error(`Unsafe ZIP entry path: ${JSON.stringify(entryPath)}`);
+  }
+}
+
 export async function openZip(zipPath: string): Promise<ZipDirectory> {
   try {
-    return await unzipper.Open.file(zipPath);
+    const directory = await unzipper.Open.file(zipPath);
+    for (const entry of directory.files) {
+      assertSafeZipEntryPath(entry.path);
+    }
+    return directory;
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     throw new Error(`Unable to open source ZIP ${zipPath}: ${message}`, { cause: error });
