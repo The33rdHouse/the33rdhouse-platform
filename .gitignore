@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+source-evidence/*.zip
+source-evidence/extracted/
+coverage/
+.DS_Store
