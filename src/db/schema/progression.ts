@@ -58,6 +58,7 @@ export const userRealmProgress = pgTable(
 
 export const discoveries = pgTable("discoveries", {
   id: serial("id").primaryKey(),
+  externalId: text("external_id").notNull().unique(),
   userId: text("user_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
