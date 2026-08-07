@@ -7,13 +7,32 @@ on:
     branches: [feat/canonical-content-core-phase-1]
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   verify:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: the33rdhouse_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d the33rdhouse_test"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/the33rdhouse_test
+      SOURCE_EVIDENCE_DIR: source-evidence
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'push' && github.ref_name || github.event.pull_request.head.sha }}
       - uses: pnpm/action-setup@v4
         with:
           version: 10.15.0
@@ -24,7 +43,23 @@ jobs:
           cache: pnpm
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      - name: Generate Drizzle migration
+        run: pnpm db:generate
       - name: Typecheck
         run: pnpm check
       - name: Unit tests
         run: pnpm test
+      - name: Apply migration to PostgreSQL 16
+        run: pnpm db:migrate
+      - name: Commit generated migration on feature-branch pushes
+        if: github.event_name == 'push'
+        run: |
+          if git diff --quiet -- drizzle && git ls-files 'drizzle/**' | grep -q .; then
+            echo "Drizzle migration already tracked and unchanged"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add drizzle
+          git commit -m "feat: generate canonical PostgreSQL migration"
+          git push origin HEAD:${GITHUB_REF_NAME}
