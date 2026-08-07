@@ -1,6 +1,6 @@
-import { afterAll, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { and, eq } from "drizzle-orm";
-import { db, pool } from "../../src/db/client";
+import { db } from "../../src/db/client";
 import {
   auditLog,
   canonObjects,
@@ -33,10 +33,7 @@ async function cleanup(): Promise<void> {
 }
 
 beforeEach(cleanup);
-afterAll(async () => {
-  await cleanup();
-  await pool.end();
-});
+afterEach(cleanup);
 
 describe("importSources", () => {
   it("preserves conflicting source variants and governs the Realm as UNDER_REVIEW", async () => {
