@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { buildRealmMediaRegistry } from "../../src/media/registry";
+import { syncMedia } from "../../src/media/sync";
 import type { ParsedSourcePackage } from "../../src/import/types";
 
 function backendFixture(count = 55): ParsedSourcePackage {
@@ -37,5 +38,10 @@ describe("buildRealmMediaRegistry", () => {
     const parsed = backendFixture(1);
     parsed.media.push({ ...parsed.media[0]! });
     expect(() => buildRealmMediaRegistry(parsed)).toThrow("Duplicate Realm media index");
+  });
+
+  it("runs dry without R2 secrets or database access", async () => {
+    const report = await syncMedia({ dryRun: true, parsedBackend: backendFixture() });
+    expect(report).toMatchObject({ available: 55, missing: 89, uploaded: 0, persisted: 0 });
   });
 });
