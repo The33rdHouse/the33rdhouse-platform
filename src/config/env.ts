@@ -25,4 +25,15 @@ export function parseEnv(input: Record<string, unknown>): AppEnv {
   return envSchema.parse(input);
 }
 
-export const env = parseEnv(process.env);
+let loadedEnv: AppEnv | undefined;
+
+function loadEnv(): AppEnv {
+  loadedEnv ??= parseEnv(process.env);
+  return loadedEnv;
+}
+
+export const env = new Proxy({} as AppEnv, {
+  get(_target, property) {
+    return loadEnv()[property as keyof AppEnv];
+  },
+});
