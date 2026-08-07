@@ -7,13 +7,15 @@ on:
     branches: [feat/canonical-content-core-phase-1]
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'push' && github.ref_name || github.event.pull_request.head.sha }}
       - uses: pnpm/action-setup@v4
         with:
           version: 10.15.0
@@ -27,6 +29,18 @@ jobs:
         run: pnpm check
       - name: Unit tests
         run: pnpm test
+      - name: Commit generated lockfile on feature-branch pushes
+        if: github.event_name == 'push'
+        run: |
+          if git diff --quiet -- pnpm-lock.yaml && git ls-files --error-unmatch pnpm-lock.yaml >/dev/null 2>&1; then
+            echo "pnpm-lock.yaml already tracked and unchanged"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add pnpm-lock.yaml
+          git commit -m "build: lock canonical service dependencies"
+          git push origin HEAD:${GITHUB_REF_NAME}
       - name: Upload generated lockfile
         if: always()
         uses: actions/upload-artifact@v4
