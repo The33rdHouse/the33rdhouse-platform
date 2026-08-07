@@ -10,6 +10,7 @@ export type ParsedMedia = {
   fileName: string;
   realmIndex?: number;
   mimeType?: string;
+  sha256?: string;
 };
 
 export type ParsedSourcePackage = {
