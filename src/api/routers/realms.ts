@@ -2,8 +2,9 @@ import { TRPCError } from "@trpc/server";
 import { and, asc, eq, gt } from "drizzle-orm";
 import { z } from "zod";
 import { canonObjects, realms } from "../../db/schema";
+import { completeRealm } from "../../progression/service";
 import { decodeNumberCursor, encodeCursor, pageInputSchema } from "../pagination";
-import { publicProcedure, router } from "../trpc";
+import { protectedProcedure, publicProcedure, router } from "../trpc";
 
 export const realmsRouter = router({
   list: publicProcedure.input(pageInputSchema).query(async ({ ctx, input }) => {
@@ -49,4 +50,8 @@ export const realmsRouter = router({
     if (!realm) throw new TRPCError({ code: "NOT_FOUND" });
     return realm;
   }),
+
+  complete: protectedProcedure
+    .input(z.object({ id: z.string().min(1) }))
+    .mutation(({ ctx, input }) => completeRealm(ctx.userId, input.id, ctx.database)),
 });
