@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "id": "complete-backend",
+      "fileName": "the-33rd-house-complete-backend.zip",
+      "bytes": 780332,
+      "sha256": "807118cb83c9c2a3d17208dc2359500ebd8b9b9535b59063887a097ba5103859"
+    },
+    {
+      "id": "escape-matrix",
+      "fileName": "escape-matrix-data (1).zip",
+      "bytes": 65766,
+      "sha256": "723f4939fee408c45662bfcb02fda5e453c4241b0d1c44533bb89980f490bd5e"
+    },
+    {
+      "id": "deity-atlas",
+      "fileName": "deity-atlas-data.zip",
+      "bytes": 203307,
+      "sha256": "63de0efb96498508d809c12302cead3ba6e0eb4f6adeab68a22e0ba6f558aa1d"
+    }
+  ]
+}
