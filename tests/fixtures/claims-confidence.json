@@ -1,0 +1,5 @@
+{
+  "valid": { "type": "ANALOGY", "confidence": "C" },
+  "invalidType": { "type": "SAME_THING", "confidence": "A" },
+  "invalidConfidence": { "type": "ANALOGY", "confidence": "HIGH" }
+}
