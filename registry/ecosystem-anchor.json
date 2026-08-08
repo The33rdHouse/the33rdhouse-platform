@@ -1,0 +1,119 @@
+{
+  "schema_version": "1.0.0",
+  "generated_on": "2026-08-08",
+  "authority": {
+    "human_controller": "Daniel Cruze",
+    "register": "https://docs.google.com/spreadsheets/d/1y125FJKzUOAY2Oo7UwgIRaC7IqbWXBxtgC2xWzEANcg/edit",
+    "airtable_base": "appXq15GXRe53bYTq"
+  },
+  "rules": [
+    "No secrets, bot tokens, recovery codes or signed temporary URLs in this registry.",
+    "AST IDs are stable cross-platform identifiers.",
+    "Ownership claims remain unverified unless supported by evidence."
+  ],
+  "systems": {
+    "github": [
+      "The33rdHouseMaster/the33rdhouse-platform",
+      "The33rdHouseMaster/the33rdhouse-bots"
+    ],
+    "vercel": [
+      {
+        "team": "aibhubofficial",
+        "id": "team_7zEedvAv2purbmYSuzFLAA1O"
+      },
+      {
+        "team": "the-33rd-house-wisdom",
+        "id": "team_dqPTq5pzULy8XHJVjLx9gCsB"
+      }
+    ],
+    "canva": {
+      "folder_id": "FAHRqtYbuTs",
+      "url": "https://www.canva.com/folder/FAHRqtYbuTs"
+    },
+    "google_drive": {
+      "spreadsheet_id": "1y125FJKzUOAY2Oo7UwgIRaC7IqbWXBxtgC2xWzEANcg"
+    },
+    "airtable": {
+      "base_id": "appXq15GXRe53bYTq",
+      "tables": [
+        "Telegram Network Registry",
+        "Websites & Deployments",
+        "Cross-Platform Alignment Register"
+      ]
+    },
+    "dropbox": {
+      "account": "MrCruze",
+      "canonical_folder": "pending explicit confirmation"
+    },
+    "adobe": {
+      "creative_cloud_search": "No matching 33rd House asset found on 2026-08-08"
+    }
+  },
+  "assets": [
+    {
+      "asset_id": "AST-0012",
+      "name": "MetaDash",
+      "platform": "Manus"
+    },
+    {
+      "asset_id": "AST-0013",
+      "name": "CreatorMKT",
+      "platform": "Manus"
+    },
+    {
+      "asset_id": "AST-0014",
+      "name": "AIB Global Group",
+      "platform": "Custom domain"
+    },
+    {
+      "asset_id": "AST-0015",
+      "name": "The 33rd House Cosmology",
+      "platform": "Manus"
+    },
+    {
+      "asset_id": "AST-0016",
+      "name": "The 33rd House Temple Academy",
+      "platform": "Netlify"
+    },
+    {
+      "asset_id": "AST-0017",
+      "name": "Canvas App HTML Artifact",
+      "platform": "CloudFront temporary artifact"
+    },
+    {
+      "asset_id": "AST-0018",
+      "name": "SalesDash",
+      "platform": "Manus"
+    },
+    {
+      "asset_id": "AST-0019",
+      "name": "Eternal Harvest",
+      "platform": "Manus"
+    },
+    {
+      "asset_id": "AST-0020",
+      "name": "DragonStack",
+      "platform": "Manus"
+    },
+    {
+      "asset_id": "AST-0021",
+      "name": "Replit Development Site — Worf",
+      "platform": "Replit"
+    },
+    {
+      "asset_id": "AST-0022",
+      "name": "Replit Development Site — Spock",
+      "platform": "Replit"
+    },
+    {
+      "asset_id": "AST-0023",
+      "name": "33rd House Manus Deployment",
+      "platform": "Manus"
+    },
+    {
+      "asset_id": "AST-0024",
+      "name": "33rd House Titan Hills",
+      "platform": "Manus"
+    }
+  ]
+}
