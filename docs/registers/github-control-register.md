@@ -19,12 +19,14 @@ Sensitive financial material must not be committed to GitHub by default. GitHub 
 | The33rdHouseMaster/the33rdhouse-api | Active | Private | main | Admin/write | API contracts, service endpoints, integrations, and backend boundary code. |
 | The33rdHouseMaster/the33rdhouse-platform | Active | Private | main | Admin/write | Master platform coordination, docs, registers, governance tasks, and ecosystem architecture. |
 | The33rdHouseMaster/aibhub | Active | Private | main | Admin/write | AIB Hub operating code, business workflows, financial-control metadata, and entity-specific automations. |
+| The-33rd-House-Community-Foundation/community | Active fork | Public | main | Admin/write | Community foundation public fork; treat as community-facing/adjacent until purpose is confirmed. |
 
 ## Repository Aliases
 
 | Supplied repository | Canonical GitHub repository | Status |
 | --- | --- | --- |
 | the33rdhouse/the33rdhouse | The33rdHouse/The33rdhouse | Confirmed alias; resolves to the active private repo. |
+| @The-33rd-House-Community-Foundation | The-33rd-House-Community-Foundation/community | Owner/org confirmed; public repo `community` is visible with admin/write access. |
 
 ## Corrected Repository Name
 
@@ -52,11 +54,14 @@ The requested `The33rdHouseMaster/the33rdhouse-aibhub` was not found. The confir
 
 ## Pending Repository Targets
 
-| Repository | Status | Check result | Next action |
+| Repository or owner | Status | Check result | Next action |
 | --- | --- | --- | --- |
 | legacy-sketch/the33rdhouse | Pending access or confirmation | GitHub returned 404 for the exact repository and likely name variants; public repo listing for `legacy-sketch` returned no repositories. | Confirm the repo spelling, make the repo visible to the connected GitHub app, or install/connect the GitHub app on the `legacy-sketch` account. |
 | AIBHUB/Master | Pending access or confirmation | GitHub returned 404. `AIBHUB` resolves as a user account with public repo `AIBHUB/skills`, but `Master` is not visible. | Confirm spelling/case or connect the GitHub app to the account that owns the repo. |
 | AIBHUB/DCEcosystem | Pending access or confirmation | GitHub returned 404. `AIBHUB` resolves as a user account with public repo `AIBHUB/skills`, but `DCEcosystem` is not visible. | Confirm spelling/case or connect the GitHub app to the account that owns the repo. |
+| TheCruzeEstate | Pending access or confirmation | GitHub returned 404 for both user-repo listing and org-repo listing. | Confirm the GitHub owner spelling or connect the GitHub app to the owning account. |
+| DanielCruzeAU | Pending access or confirmation | GitHub returned 404 for both user-repo listing and org-repo listing. | Confirm the GitHub owner spelling or connect the GitHub app to the owning account. |
+| aibhubofficial-boop | Pending access or confirmation | GitHub returned 404 for both user-repo listing and org-repo listing. | Confirm the GitHub owner spelling or connect the GitHub app to the owning account. |
 
 Checked variants for `legacy-sketch/the33rdhouse`:
 
@@ -64,6 +69,11 @@ Checked variants for `legacy-sketch/the33rdhouse`:
 - `legacy-sketch/The33rdhouse`
 - `legacy-sketch/The33rdHouse`
 - `legacy-sketch/the-33rd-house`
+
+Checked foundation spelling variant:
+
+- `The-33rd-House-Community-Foundation` confirmed
+- `The-33rd-House-Comunity-Foundation` not found
 
 ## Current Financial Control Source Set
 
@@ -88,6 +98,7 @@ Notes:
 | Shared APIs and integrations | The33rdHouseMaster/the33rdhouse-api | Store API contracts, integration adapters, and backend service boundaries. |
 | The 33rd House site and codex presentation | The33rdHouse/The33rdhouse | Store public-facing or member-facing site code and content. |
 | AIB Hub operating workflows | The33rdHouseMaster/aibhub | Store AIB-specific workflows, finance metadata, ops automations, and business process code. |
+| Community foundation public material | The-33rd-House-Community-Foundation/community | Treat as public/adjacent until confirmed; avoid private governance, finance, identity, or secret material. |
 
 ## Security Rules
 
@@ -111,4 +122,6 @@ Allowed by default:
 - Decide whether `aib-solutions/aib-app` and `AIBHUB/skills` are historical, adjacent, or active ecosystem assets.
 - Confirm or connect `legacy-sketch/the33rdhouse` before treating it as an active repository.
 - Confirm or connect `AIBHUB/Master` and `AIBHUB/DCEcosystem` before treating them as active repositories.
+- Confirm or connect `TheCruzeEstate`, `DanielCruzeAU`, and `aibhubofficial-boop` before treating them as active owners.
+- Confirm whether `The-33rd-House-Community-Foundation/community` should stay as a public adjacent asset or receive its own community governance docs.
 - Link future PRs back to the master platform register issue.
