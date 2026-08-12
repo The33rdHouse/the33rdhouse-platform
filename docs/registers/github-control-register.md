@@ -32,13 +32,33 @@ The requested `The33rdHouseMaster/the33rdhouse-aibhub` was not found. The confir
 
 `The33rdHouseMaster/aibhub`
 
+## Control Artifacts Created
+
+| Repository | File | Purpose | Commit |
+| --- | --- | --- | --- |
+| The33rdHouseMaster/aibhub | `docs/finance-control/README.md` | Sanitized AIB finance-control metadata structure. | `fc228dcf1ce6bb1042bdf00ec0bcd07ec7cfd065` |
+| The33rdHouseMaster/aibhub | `docs/finance-control/transaction-category-schema.md` | Transaction category schema without raw transaction rows. | `c5b036c3263fee3f9c137023f095ef6f2192c7c7` |
+| The33rdHouseMaster/the33rdhouse-bots | `docs/registers/telegram-network-deployment-map.md` | Sanitized Telegram network and bot deployment boundary map. | `81f26ce9b6aa00ba43a4f0bb959aed721ffe6cec` |
+| The33rdHouseMaster/the33rdhouse-api | `docs/registers/api-boundary-notes.md` | Initial API boundary, endpoint contract template, and secret rules. | `d2fa0505d71a392f0b1f5ed8100945218192e7bb` |
+
+## Read-Only or External Observed Repositories
+
+| Repository/account | Status | Visibility | Access | Note |
+| --- | --- | --- | --- | --- |
+| aib-solutions | GitHub user account | Public profile | Read/list only | Supplied as an account target, not a repo full name. Public listing exposes `aib-solutions/aib-app`. |
+| aib-solutions/aib-app | Active repository | Public | Pull only | Public empty/placeholder app repo; no write access through the connected GitHub app. |
+| AIBHUB | GitHub user account | Public profile | Read/list only | Public listing exposes `AIBHUB/skills`. |
+| AIBHUB/skills | Archived repository | Public | Pull only | Forked skills catalog; archived; no write access through the connected GitHub app. |
+
 ## Pending Repository Targets
 
 | Repository | Status | Check result | Next action |
 | --- | --- | --- | --- |
 | legacy-sketch/the33rdhouse | Pending access or confirmation | GitHub returned 404 for the exact repository and likely name variants; public repo listing for `legacy-sketch` returned no repositories. | Confirm the repo spelling, make the repo visible to the connected GitHub app, or install/connect the GitHub app on the `legacy-sketch` account. |
+| AIBHUB/Master | Pending access or confirmation | GitHub returned 404. `AIBHUB` resolves as a user account with public repo `AIBHUB/skills`, but `Master` is not visible. | Confirm spelling/case or connect the GitHub app to the account that owns the repo. |
+| AIBHUB/DCEcosystem | Pending access or confirmation | GitHub returned 404. `AIBHUB` resolves as a user account with public repo `AIBHUB/skills`, but `DCEcosystem` is not visible. | Confirm spelling/case or connect the GitHub app to the account that owns the repo. |
 
-Checked variants:
+Checked variants for `legacy-sketch/the33rdhouse`:
 
 - `legacy-sketch/the33rdhouse`
 - `legacy-sketch/The33rdhouse`
@@ -88,9 +108,7 @@ Allowed by default:
 
 ## Next Control Tasks
 
-- Create an AIB Hub finance metadata folder in `The33rdHouseMaster/aibhub`.
-- Add a transaction category schema without raw transaction rows.
-- Add a bot/network deployment map in `The33rdHouseMaster/the33rdhouse-bots`.
-- Add API boundary notes in `The33rdHouseMaster/the33rdhouse-api`.
+- Decide whether `aib-solutions/aib-app` and `AIBHUB/skills` are historical, adjacent, or active ecosystem assets.
 - Confirm or connect `legacy-sketch/the33rdhouse` before treating it as an active repository.
-- Link the master platform register to future issues and pull requests.
+- Confirm or connect `AIBHUB/Master` and `AIBHUB/DCEcosystem` before treating them as active repositories.
+- Link future PRs back to the master platform register issue.
