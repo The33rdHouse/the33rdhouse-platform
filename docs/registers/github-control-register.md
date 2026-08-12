@@ -62,6 +62,7 @@ The requested `The33rdHouseMaster/the33rdhouse-aibhub` was not found. The confir
 | TheCruzeEstate | Pending access or confirmation | GitHub returned 404 for both user-repo listing and org-repo listing. | Confirm the GitHub owner spelling or connect the GitHub app to the owning account. |
 | DanielCruzeAU | Pending access or confirmation | GitHub returned 404 for both user-repo listing and org-repo listing. | Confirm the GitHub owner spelling or connect the GitHub app to the owning account. |
 | aibhubofficial-boop | Pending access or confirmation | GitHub returned 404 for both user-repo listing and org-repo listing. | Confirm the GitHub owner spelling or connect the GitHub app to the owning account. |
+| Enterprise/DanielCruzeAU | Pending access or confirmation | GitHub returned 404 for the exact repo, and `Enterprise` did not resolve as a visible user or organization. | Confirm whether this is a GitHub Enterprise workspace URL, a different owner name, or a private repo needing app access. |
 
 Checked variants for `legacy-sketch/the33rdhouse`:
 
@@ -123,5 +124,6 @@ Allowed by default:
 - Confirm or connect `legacy-sketch/the33rdhouse` before treating it as an active repository.
 - Confirm or connect `AIBHUB/Master` and `AIBHUB/DCEcosystem` before treating them as active repositories.
 - Confirm or connect `TheCruzeEstate`, `DanielCruzeAU`, and `aibhubofficial-boop` before treating them as active owners.
+- Confirm whether `Enterprise/DanielCruzeAU` is a GitHub Enterprise URL, a different owner, or a private repo needing app access.
 - Confirm whether `The-33rd-House-Community-Foundation/community` should stay as a public adjacent asset or receive its own community governance docs.
 - Link future PRs back to the master platform register issue.
