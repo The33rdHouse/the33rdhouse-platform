@@ -20,6 +20,12 @@ Sensitive financial material must not be committed to GitHub by default. GitHub 
 | The33rdHouseMaster/the33rdhouse-platform | Active | Private | main | Admin/write | Master platform coordination, docs, registers, governance tasks, and ecosystem architecture. |
 | The33rdHouseMaster/aibhub | Active | Private | main | Admin/write | AIB Hub operating code, business workflows, financial-control metadata, and entity-specific automations. |
 
+## Repository Aliases
+
+| Supplied repository | Canonical GitHub repository | Status |
+| --- | --- | --- |
+| the33rdhouse/the33rdhouse | The33rdHouse/The33rdhouse | Confirmed alias; resolves to the active private repo. |
+
 ## Corrected Repository Name
 
 The requested `The33rdHouseMaster/the33rdhouse-aibhub` was not found. The confirmed accessible repository is:
