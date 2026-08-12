@@ -58,6 +58,7 @@ The requested `The33rdHouseMaster/the33rdhouse-aibhub` was not found. The confir
 
 | Repository or owner | Status | Check result | Next action |
 | --- | --- | --- | --- |
+| the-33rd-house | Pending access or confirmation | GitHub returned 404 for the owner profile, user repo listing, and org repo listing. | Confirm the owner spelling/case or connect the GitHub app to the owning account. |
 | legacy-sketch/the33rdhouse | Pending access or confirmation | GitHub returned 404 for the exact repository and likely name variants; public repo listing for `legacy-sketch` returned no repositories. | Confirm the repo spelling, make the repo visible to the connected GitHub app, or install/connect the GitHub app on the `legacy-sketch` account. |
 | AIBHUB/Master | Pending access or confirmation | GitHub returned 404. `AIBHUB` resolves as a user account with public repo `AIBHUB/skills`, but `Master` is not visible. | Confirm spelling/case or connect the GitHub app to the account that owns the repo. |
 | AIBHUB/DCEcosystem | Pending access or confirmation | GitHub returned 404. `AIBHUB` resolves as a user account with public repo `AIBHUB/skills`, but `DCEcosystem` is not visible. | Confirm spelling/case or connect the GitHub app to the account that owns the repo. |
@@ -126,6 +127,7 @@ Allowed by default:
 ## Next Control Tasks
 
 - Decide whether `aib-solutions/aib-app` and `AIBHUB/skills` are historical, adjacent, or active ecosystem assets.
+- Confirm or connect `the-33rd-house` before treating it as an active owner.
 - Confirm or connect `legacy-sketch/the33rdhouse` before treating it as an active repository.
 - Confirm or connect `AIBHUB/Master` and `AIBHUB/DCEcosystem` before treating them as active repositories.
 - Confirm or connect `TheCruzeEstate`, `DanielCruzeAU`, and `aibhubofficial-boop` before treating them as active owners.
