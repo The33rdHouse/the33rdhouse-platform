@@ -19,6 +19,8 @@ Sensitive financial material must not be committed to GitHub by default. GitHub 
 | The33rdHouseMaster/the33rdhouse-api | Active | Private | main | Admin/write | API contracts, service endpoints, integrations, and backend boundary code. |
 | The33rdHouseMaster/the33rdhouse-platform | Active | Private | main | Admin/write | Master platform coordination, docs, registers, governance tasks, and ecosystem architecture. |
 | The33rdHouseMaster/aibhub | Active | Private | main | Admin/write | AIB Hub operating code, business workflows, financial-control metadata, and entity-specific automations. |
+| The33rdHouseMaster/the33rdhouse-docs | Active | Private | main | Admin/write | Master docs, sanitized source registers, governance notes, and document index material. |
+| The33rdHouseMaster/the33rdhouse-website | Active | Private | main | Admin/write | Website code, landing/site content, routing, and public presentation assets. |
 | The-33rd-House-Community-Foundation/community | Active fork | Public | main | Admin/write | Community foundation public fork; treat as community-facing/adjacent until purpose is confirmed. |
 
 ## Repository Aliases
@@ -63,6 +65,7 @@ The requested `The33rdHouseMaster/the33rdhouse-aibhub` was not found. The confir
 | DanielCruzeAU | Pending access or confirmation | GitHub returned 404 for both user-repo listing and org-repo listing. | Confirm the GitHub owner spelling or connect the GitHub app to the owning account. |
 | aibhubofficial-boop | Pending access or confirmation | GitHub returned 404 for both user-repo listing and org-repo listing. | Confirm the GitHub owner spelling or connect the GitHub app to the owning account. |
 | Enterprise/DanielCruzeAU | Pending access or confirmation | GitHub returned 404 for the exact repo, and `Enterprise` did not resolve as a visible user or organization. | Confirm whether this is a GitHub Enterprise workspace URL, a different owner name, or a private repo needing app access. |
+| The-33rd-House-Community-Foundation/.github | Pending access or confirmation | GitHub returned 404 for the exact repository URL. | Confirm the special org `.github` repo exists and is visible to the connected GitHub app before treating it as active. |
 
 Checked variants for `legacy-sketch/the33rdhouse`:
 
@@ -97,6 +100,8 @@ Notes:
 | Master architecture and governance registers | The33rdHouseMaster/the33rdhouse-platform | Store sanitized markdown, schema notes, and task anchors under `docs/registers/`. |
 | Telegram channels, bots, publishing workers | The33rdHouseMaster/the33rdhouse-bots | Store bot code, worker code, channel routing, and deployment notes only. Never commit bot tokens. |
 | Shared APIs and integrations | The33rdHouseMaster/the33rdhouse-api | Store API contracts, integration adapters, and backend service boundaries. |
+| Docs, source registers, and document indexes | The33rdHouseMaster/the33rdhouse-docs | Store sanitized documentation, source indexes, and governance notes. Do not store raw bank/source PDFs by default. |
+| Website and public presentation | The33rdHouseMaster/the33rdhouse-website | Store site code, content routing, and public presentation assets. |
 | The 33rd House site and codex presentation | The33rdHouse/The33rdhouse | Store public-facing or member-facing site code and content. |
 | AIB Hub operating workflows | The33rdHouseMaster/aibhub | Store AIB-specific workflows, finance metadata, ops automations, and business process code. |
 | Community foundation public material | The-33rd-House-Community-Foundation/community | Treat as public/adjacent until confirmed; avoid private governance, finance, identity, or secret material. |
@@ -125,5 +130,7 @@ Allowed by default:
 - Confirm or connect `AIBHUB/Master` and `AIBHUB/DCEcosystem` before treating them as active repositories.
 - Confirm or connect `TheCruzeEstate`, `DanielCruzeAU`, and `aibhubofficial-boop` before treating them as active owners.
 - Confirm whether `Enterprise/DanielCruzeAU` is a GitHub Enterprise URL, a different owner, or a private repo needing app access.
+- Confirm whether `The-33rd-House-Community-Foundation/.github` exists and should hold org profile, default health files, and community standards.
 - Confirm whether `The-33rd-House-Community-Foundation/community` should stay as a public adjacent asset or receive its own community governance docs.
+- Decide whether to initialize `The33rdHouseMaster/the33rdhouse-docs` and `The33rdHouseMaster/the33rdhouse-website` with starter README/control docs.
 - Link future PRs back to the master platform register issue.
