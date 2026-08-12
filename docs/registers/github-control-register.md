@@ -26,6 +26,19 @@ The requested `The33rdHouseMaster/the33rdhouse-aibhub` was not found. The confir
 
 `The33rdHouseMaster/aibhub`
 
+## Pending Repository Targets
+
+| Repository | Status | Check result | Next action |
+| --- | --- | --- | --- |
+| legacy-sketch/the33rdhouse | Pending access or confirmation | GitHub returned 404 for the exact repository and likely name variants; public repo listing for `legacy-sketch` returned no repositories. | Confirm the repo spelling, make the repo visible to the connected GitHub app, or install/connect the GitHub app on the `legacy-sketch` account. |
+
+Checked variants:
+
+- `legacy-sketch/the33rdhouse`
+- `legacy-sketch/The33rdhouse`
+- `legacy-sketch/The33rdHouse`
+- `legacy-sketch/the-33rd-house`
+
 ## Current Financial Control Source Set
 
 Sanitized GitHub anchor only. Raw statements, full transaction rows, bank PDFs, account numbers, and screenshots remain outside GitHub unless explicitly approved for a separate secure repository policy.
@@ -73,4 +86,5 @@ Allowed by default:
 - Add a transaction category schema without raw transaction rows.
 - Add a bot/network deployment map in `The33rdHouseMaster/the33rdhouse-bots`.
 - Add API boundary notes in `The33rdHouseMaster/the33rdhouse-api`.
+- Confirm or connect `legacy-sketch/the33rdhouse` before treating it as an active repository.
 - Link the master platform register to future issues and pull requests.
