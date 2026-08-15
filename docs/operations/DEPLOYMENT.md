@@ -14,7 +14,7 @@ The Phase 1 runtime is:
 - Cloudflare R2 through its S3-compatible API for media objects
 - Vitest for unit and integration verification
 
-MySQL is not a supported Phase 1 database. AWS S3 is not the selected Phase 1 media store. Cloudflare R2 is accessed through the AWS S3-compatible client library.
+PostgreSQL is the canonical Phase 1 database. Cloudflare R2 is the selected Phase 1 media store and is accessed through the S3-compatible client library.
 
 ## Phase boundary
 
