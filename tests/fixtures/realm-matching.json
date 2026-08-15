@@ -1,0 +1,18 @@
+[
+  {
+    "sourceId": "deity-atlas-realms",
+    "realmNumber": 27,
+    "gate": 3,
+    "gateName": "Gate Three",
+    "name": "Realm of Stillness",
+    "description": "Return to stillness."
+  },
+  {
+    "sourceId": "deity-atlas-meditations",
+    "realmNumber": 27,
+    "gate": 3,
+    "gateName": "Gate Three",
+    "name": "  Realm of Stillness  ",
+    "description": "Return to stillness."
+  }
+]

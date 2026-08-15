@@ -1,0 +1,14 @@
+[
+  {
+    "kind": "tradition",
+    "sourcePath": "traditions-a.json",
+    "sourceRecordId": "wisdom-a",
+    "payload": { "id": "wisdom-lineage", "name": "Wisdom Lineage" }
+  },
+  {
+    "kind": "tradition",
+    "sourcePath": "traditions-b.json",
+    "sourceRecordId": "wisdom-b",
+    "payload": { "id": "wisdom-lineage", "name": "Wisdom Tradition" }
+  }
+]

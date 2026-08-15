@@ -1,0 +1,40 @@
+{
+  "name": "@the33rdhouse/canonical-content-core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "packageManager": "pnpm@10.15.0",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "check": "tsc --noEmit",
+    "test": "vitest run",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "tsx src/db/migrate.ts",
+    "sources:inventory": "tsx scripts/inventory-sources.ts",
+    "sources:import": "tsx scripts/import-sources.ts",
+    "media:sync": "tsx scripts/sync-media.ts"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.864.0",
+    "@trpc/server": "^11.4.4",
+    "drizzle-orm": "^0.44.4",
+    "express": "^5.1.0",
+    "pg": "^8.16.3",
+    "superjson": "^2.2.2",
+    "unzipper": "^0.12.3",
+    "zod": "^4.0.17"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.2.0",
+    "@types/pg": "^8.15.5",
+    "drizzle-kit": "^0.31.4",
+    "tsx": "^4.20.3",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
+  }
+}

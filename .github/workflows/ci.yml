@@ -1,0 +1,54 @@
+name: Canonical Content Core CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main, feat/canonical-content-core-phase-1]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: the33rdhouse_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d the33rdhouse_test"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/the33rdhouse_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.15.0
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Verify Drizzle migration is current
+        run: |
+          pnpm db:generate
+          git diff --exit-code -- drizzle
+      - name: Typecheck
+        run: pnpm check
+      - name: Apply migration to PostgreSQL 16
+        run: pnpm db:migrate
+      - name: Unit and integration tests
+        run: pnpm test
+      - name: Build
+        run: pnpm build

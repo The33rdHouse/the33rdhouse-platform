@@ -1,0 +1,11 @@
+{
+  "valid": { "type": "ANALOGY", "confidence": "C" },
+  "validByGrade": [
+    { "type": "EQUIVALENCE", "confidence": "A" },
+    { "type": "FUNCTIONAL_SIMILARITY", "confidence": "B" },
+    { "type": "ANALOGY", "confidence": "C" },
+    { "type": "SYMBOLIC_RESONANCE", "confidence": "D" }
+  ],
+  "invalidType": { "type": "SAME_THING", "confidence": "A" },
+  "invalidConfidence": { "type": "ANALOGY", "confidence": "HIGH" }
+}
