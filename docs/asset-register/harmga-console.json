@@ -1,0 +1,50 @@
+{
+  "assetId": "HARMGA-CONSOLE-V2.5.0-INTEGRATION",
+  "classification": "Operational client and authenticated backend integration",
+  "source": "User-supplied v2.5.0 console; reimplemented with truthful server-backed behavior",
+  "historicalProvenance": "Not independently established",
+  "baseRepository": "The33rdHouse/the33rdhouse-platform",
+  "baseBranch": "feat/canonical-content-core-phase-1",
+  "baseCommit": "0962c6b0349bd2d57df183cfcecff2510f570302",
+  "status": "SOURCE_INTEGRATION_FOR_REVIEW",
+  "deployment": null,
+  "signature": null,
+  "files": [
+    {
+      "path": "client/src/App.tsx",
+      "sha256": "f248d57310c71a5234759b2a805ae8cbecbf13672610e333b84e97dd767c54a7"
+    },
+    {
+      "path": "client/src/ErrorBoundary.tsx",
+      "sha256": "3155dd764698358553e5c76ddad7125721e9f7260965275c84eab6b279d4f624"
+    },
+    {
+      "path": "client/src/lib/trpc.ts",
+      "sha256": "041fce604968af219c5330c0c4b1e48213195c889dff4ec413710535e36b409c"
+    },
+    {
+      "path": "shared/preferences.ts",
+      "sha256": "f1d690e94a7e343bc95c85d729f0616b422b1c012cd5a5987a80e5aab578d43f"
+    },
+    {
+      "path": "src/console/session.ts",
+      "sha256": "8e5d32e7c0212670878b86511c0e1f2fca26bedf5b16ffae6f3ce0a91a92b663"
+    },
+    {
+      "path": "src/console/policy.ts",
+      "sha256": "02a7f68b4b7ccf4126f0cbebc303d80557ee35e3f45c080ef9d46425306c1ea6"
+    },
+    {
+      "path": "src/console/vault.ts",
+      "sha256": "bef46d9c44d5f19005966938899e719a68ce3c2a9c5b15a065bb2a7d07052a79"
+    },
+    {
+      "path": "src/api/routers/console.ts",
+      "sha256": "47dbf0765c155c498c4ffa3cef0eff1b2916d2f189cc9c59ea53648e82ae3c81"
+    },
+    {
+      "path": "src/db/schema/console.ts",
+      "sha256": "b3800767e2c9a85b2f3881232050bf143b12349851e5c8db21c16f0beac6c9ec"
+    }
+  ]
+}
