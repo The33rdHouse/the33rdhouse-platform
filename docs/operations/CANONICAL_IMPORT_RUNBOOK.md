@@ -62,7 +62,7 @@ The inventory must verify every approved archive against `SOURCE_MANIFEST.json`.
 pnpm sources:import -- --dry-run
 ```
 
-Dry-run must parse and reconcile without database writes. Review all warnings and conflicts. `--commit` is forbidden if dry-run reports any hash, schema, structural-ID, duplicate, referential-integrity, or reconciliation error.
+Dry-run must parse and reconcile without database writes. Review all warnings and conflicts. Commit mode (`--commit`) is forbidden if dry-run reports any hash, schema, structural-ID, duplicate, referential-integrity, or reconciliation error.
 
 An `UNDER_REVIEW` Realm conflict is not permission to choose a winner automatically. It is a governance item and must follow `REALM_CONFLICT_REVIEW.md`.
 
@@ -121,3 +121,4 @@ After a committed import, verify the Phase 1 acceptance invariants:
 - the current approved media baseline is represented explicitly rather than inferred;
 - user progression operations remain persistent and idempotent;
 - no raw source archive has entered Git history.
+

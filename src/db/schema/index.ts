@@ -4,3 +4,5 @@ export * from "./knowledge";
 export * from "./structure";
 export * from "./curriculum";
 export * from "./progression";
+
+export * from './console';

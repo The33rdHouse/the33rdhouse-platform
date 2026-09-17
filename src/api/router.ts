@@ -1,3 +1,4 @@
+import { consoleRouter } from "./routers/console";
 import { router } from "./trpc";
 import { achievementsRouter } from "./routers/achievements";
 import { adminRouter } from "./routers/admin";
@@ -12,6 +13,7 @@ import { researchRouter } from "./routers/research";
 import { traditionsRouter } from "./routers/traditions";
 
 export const appRouter = router({
+  console: consoleRouter,
   atlas: atlasRouter,
   traditions: traditionsRouter,
   gates: gatesRouter,

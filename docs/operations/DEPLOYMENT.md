@@ -63,11 +63,11 @@ The current application exposes:
 
 `X-Powered-By` is disabled and JSON request bodies are capped by the application.
 
-### Authentication deployment blocker
+### Console authentication integration
 
-Protected/admin tRPC procedures resolve identity from a trusted server-side value at `res.locals.authUserId`. The Phase 1 application currently does not install the authentication middleware that establishes that value.
+The HARMGA integration installs database-backed opaque-session authentication before tRPC. Protected procedures still resolve identity through `res.locals.authUserId` and persisted roles. Client identity headers are not trusted. Operator-issued, expiring pilot sessions and same-origin mutation enforcement are described in `HARMGA_CONSOLE.md`.
 
-This is intentionally fail-closed: absent trusted identity middleware, HTTP callers are anonymous. Public production deployment must not claim authenticated member/admin functionality until a trusted identity adapter is wired, tested end-to-end, and shown not to accept client-supplied identity headers as authority.
+The console adds POST /auth/session, POST /auth/logout, protected GET /api/exhibits/:id, console tRPC procedures and the built frontend. Configure APP_ORIGIN and NODE_ENV=production before deployment. Pilot credential issuance is not a replacement for an approved broad-rollout identity provider. Production readiness remains subject to the gates below.
 
 ## Internet-facing hardening gate
 
@@ -104,3 +104,4 @@ A deployment may be promoted only when:
 4. trusted authentication is wired for any protected/admin HTTP feature being exposed;
 5. the internet-facing hardening gate is evidenced;
 6. deployment documentation still matches the actual runtime.
+
